@@ -1,0 +1,410 @@
+/* =======================================================
+   PD Sardegna — template ispirato a partitodemocratico.it
+   ======================================================= */
+
+:root{
+  --pd-red: #E4032E;
+  --pd-red-dark: #B5021F;
+  --pd-navy: #12172B;
+  --pd-navy-2: #1B2140;
+  --grey-bg: #F4F5F7;
+  --grey-line: #E3E5EA;
+  --text-dark: #1A1D26;
+  --text-muted: #6A6F7D;
+  --white: #ffffff;
+  --radius: 10px;
+  --shadow: 0 6px 24px rgba(18,23,43,.08);
+  --font-head: 'Barlow Condensed', sans-serif;
+  --font-body: 'Source Sans 3', sans-serif;
+}
+
+*{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin:0;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--white);
+  line-height:1.5;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+h1,h2,h3,h4,h5{ font-family: var(--font-head); margin:0 0 .4em; text-transform:uppercase; letter-spacing:.3px; }
+p{ margin:0 0 1em; color: var(--text-muted); }
+ul{ list-style:none; margin:0; padding:0; }
+.btn{
+  display:inline-block; padding:.7em 1.5em; border-radius: 999px;
+  font-weight:700; font-family: var(--font-head); text-transform:uppercase;
+  letter-spacing:.5px; font-size:.85rem; border: 2px solid transparent; cursor:pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.btn:hover{ transform: translateY(-1px); }
+.btn-primary{ background: var(--pd-red); color:#fff; }
+.btn-primary:hover{ background: var(--pd-red-dark); }
+.btn-light{ background:#fff; color: var(--pd-navy); }
+
+/* ---------------- Ticker ---------------- */
+.ticker-bar{
+  background: var(--pd-red); color:#fff; display:flex; align-items:center;
+  font-family: var(--font-head); font-size:.9rem; overflow:hidden;
+}
+.ticker-label{
+  flex:0 0 auto; background: var(--pd-red-dark); padding:.5em 1em; font-weight:700;
+  text-transform:uppercase; letter-spacing:.5px;
+}
+.ticker-track{ flex:1; overflow:hidden; white-space:nowrap; padding:.5em 0; }
+.ticker-list{ display:inline-flex; gap:2.5em; padding-left:100%; animation: ticker-scroll 35s linear infinite; }
+.ticker-list li a{ font-weight:600; }
+@keyframes ticker-scroll{
+  from{ transform: translateX(0); }
+  to{ transform: translateX(-100%); }
+}
+
+/* ---------------- Header (chiaro, come il sito nazionale) ---------------- */
+.site-header{ background: #fff; position:sticky; top:0; z-index:50; box-shadow: 0 1px 0 var(--grey-line), 0 4px 16px rgba(18,23,43,.05); }
+.header-inner{
+  max-width:1240px; margin:0 auto; padding:.9em 1.5em .6em;
+  display:flex; align-items:center; gap:2em; justify-content:center; flex-wrap:wrap;
+}
+.logo{ display:flex; align-items:center; gap:.6em; flex:0 0 auto; }
+.logo img{ height:56px; width:auto; }
+.logo-text{ display:none; } /* il logo PD Sardegna ha già il nome integrato */
+.main-nav{ width:100%; border-top:1px solid var(--grey-line); margin-top:.6em; }
+.main-nav > ul{ display:flex; gap:1.6em; justify-content:center; }
+.main-nav > ul > li{ position:relative; }
+.main-nav > ul > li > a{
+  color: var(--text-dark); font-weight:600; font-family: var(--font-head);
+  text-transform:uppercase; font-size:.95rem; letter-spacing:.4px;
+  padding:.9em 0; display:inline-block; border-bottom:2px solid transparent;
+}
+.main-nav > ul > li > a.active,
+.main-nav > ul > li > a:hover{ color: var(--pd-red); border-bottom:2px solid var(--pd-red); }
+.dropdown{
+  position:absolute; top:100%; left:0; background:#fff; min-width:220px;
+  box-shadow: var(--shadow); border-radius:0 0 8px 8px; padding:.5em 0;
+  opacity:0; visibility:hidden; transform: translateY(6px); transition:.15s ease;
+}
+.has-dropdown:hover .dropdown{ opacity:1; visibility:visible; transform:translateY(0); }
+.dropdown li a{ display:block; padding:.6em 1.2em; color: var(--text-dark); font-size:.9rem; }
+.dropdown li a:hover{ background: var(--grey-bg); color: var(--pd-red); }
+
+.header-actions{ display:flex; align-items:center; gap:.8em; flex:0 0 auto; position:absolute; right:1.5em; top:1em; }
+.icon-btn{
+  background:none; border:none; color: var(--text-muted); width:36px; height:36px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+}
+.icon-btn:hover{ background: var(--grey-bg); color: var(--pd-red); }
+.icon-btn svg{ width:19px; height:19px; }
+.menu-toggle{ display:none; flex-direction:column; gap:4px; }
+.menu-toggle span{ width:20px; height:2px; background: var(--text-dark); }
+
+.search-panel{
+  max-height:0; overflow:hidden; background: var(--grey-bg); transition:.2s ease;
+}
+.search-panel.open{ max-height:460px; overflow-y:auto; }
+.search-panel-inner{ max-width:1240px; margin:0 auto; padding:0 1.5em; display:flex; align-items:center; gap:.5em; }
+.search-panel-inner input{
+  flex:1; background:none; border:none; border-bottom:1px solid var(--grey-line); color: var(--text-dark); padding:1em 0; font-size:1rem;
+}
+.search-panel-inner input::placeholder{ color: var(--text-muted); }
+.search-panel-inner .icon-btn{ color: var(--text-dark); }
+
+.search-results{ max-width:1240px; margin:0 auto; padding:0 1.5em; }
+.search-results.visible{ padding-bottom:1em; }
+.search-result{
+  display:flex; align-items:center; justify-content:space-between; gap:1em;
+  padding:.65em .4em; border-bottom:1px solid var(--grey-line); color: var(--text-dark);
+}
+.search-result:hover{ color: var(--pd-red); }
+.search-result-title{ font-weight:600; font-size:.92rem; }
+.search-result-type{
+  flex-shrink:0; font-size:.68rem; font-weight:700; color: var(--text-muted); text-transform:uppercase;
+  letter-spacing:.4px; background:#fff; padding:.25em .7em; border-radius:999px;
+}
+.search-empty{ padding:.8em .4em; color: var(--text-muted); font-size:.9rem; }
+
+/* header-inner needs relative positioning for the absolute-positioned actions */
+.site-header .header-inner{ position:relative; }
+
+/* ---------------- Hero grid ---------------- */
+.hero-grid{
+  max-width:1240px; margin:0 auto; padding:2em 1.5em;
+  display:grid; grid-template-columns: 1.6fr 1fr; gap:1.5em;
+}
+.hero-main .card{ height:100%; }
+.hero-main .card img{ height:420px; object-fit:cover; }
+.hero-side{ display:flex; flex-direction:column; gap:1.2em; }
+.hero-side .card{ display:flex; gap:1em; }
+.hero-side .card img{ width:140px; height:100px; object-fit:cover; border-radius:8px; flex:0 0 auto; }
+
+.card{
+  position:relative; border-radius: var(--radius); overflow:hidden; background:#fff; box-shadow: var(--shadow);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.card:hover{ transform: translateY(-4px); box-shadow: 0 14px 28px rgba(18,23,43,.14); }
+.card img{ width:100%; object-fit:cover; transition: transform .35s ease; }
+.card:hover img{ transform: scale(1.04); }
+.card-body{ padding:1em 1.2em; }
+.card-tag{
+  display:inline-block; background: var(--pd-red); color:#fff; font-family: var(--font-head);
+  font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px;
+  padding:.25em .7em; border-radius:4px; margin-bottom:.5em;
+}
+.card h3{ font-size:1.25rem; margin-bottom:.3em; line-height:1.15; }
+.hero-side .card h3{ font-size:1rem; }
+.card p.excerpt{ font-size:.9rem; margin:0; }
+.card-overlay{
+  position:absolute; inset:0; background: linear-gradient(0deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.15) 55%, transparent 100%);
+  display:flex; align-items:flex-end; padding:1.4em;
+}
+.card-overlay .card-tag{ position:absolute; top:1em; left:1em; }
+.card-overlay h3{ color:#fff; font-size:1.6rem; }
+
+/* ---------------- Campaign banner ---------------- */
+.campaign-banner{ background: var(--pd-navy); color:#fff; }
+.campaign-banner-inner{
+  max-width:1240px; margin:0 auto; padding:3em 1.5em;
+  display:grid; grid-template-columns: 1fr 1fr; align-items:center; gap:2em;
+}
+.campaign-text .eyebrow{
+  color: var(--pd-red); font-family: var(--font-head); font-weight:700;
+  text-transform:uppercase; letter-spacing:1px; font-size:.85rem;
+}
+.campaign-text h2{ font-size:2.2rem; color:#fff; margin:.3em 0 .4em; }
+.campaign-text p{ color:#c3c7de; }
+.campaign-banner-inner img{ border-radius: var(--radius); box-shadow: var(--shadow); }
+
+/* ---------------- News section ---------------- */
+.news-section{ max-width:1240px; margin:0 auto; padding:3em 1.5em; }
+.section-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:1.6em; flex-wrap:wrap; gap:1em; }
+.section-head h2{ font-size:1.9rem; margin:0; border-left:5px solid var(--pd-red); padding-left:.5em; }
+.section-head.centered{ flex-direction:column; text-align:center; max-width:720px; margin:0 auto 2em; }
+.section-head.centered h2{ border:none; padding:0; }
+.tabs{ display:flex; gap:.5em; flex-wrap:wrap; }
+.tab{
+  background: var(--grey-bg); border:none; padding:.5em 1.2em; border-radius:999px;
+  font-family: var(--font-head); font-weight:700; text-transform:uppercase; font-size:.8rem;
+  letter-spacing:.4px; cursor:pointer; color: var(--text-muted);
+}
+.tab.active, .tab:hover{ background: var(--pd-red); color:#fff; }
+
+.news-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:1.5em; }
+.news-grid .card img{ height:190px; }
+.news-grid .card-body p{ font-size:.88rem; }
+.news-grid .card-body .date{ font-size:.78rem; color:#9a9fae; }
+
+/* ---------------- Map section ---------------- */
+.community-map{ background: var(--grey-bg); padding:3em 1.5em; }
+#sardegna-map{
+  max-width:1100px; margin:0 auto; height:460px; border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow:hidden;
+}
+
+/* ---------------- Social feed ---------------- */
+.social-feed{ max-width:1240px; margin:0 auto; padding:3em 1.5em; }
+.social-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:1.2em; }
+.social-card{ position:relative; border-radius: var(--radius); overflow:hidden; box-shadow: var(--shadow); aspect-ratio: 1/1; }
+.social-card img{ width:100%; height:100%; object-fit:cover; transition: transform .35s ease; }
+.social-card:hover img{ transform: scale(1.06); }
+.social-icon{
+  position:absolute; bottom:.7em; left:.7em; background: rgba(18,23,43,.75); color:#fff;
+  font-size:.75rem; font-family: var(--font-head); font-weight:700; padding:.3em .7em; border-radius:999px;
+  display:flex; align-items:center; gap:.35em;
+}
+
+/* ---------------- Institutional links ---------------- */
+.institutional-links{
+  max-width:1240px; margin:0 auto; padding:1em 1.5em 3em;
+  display:grid; grid-template-columns: repeat(4, 1fr); gap:1.2em; text-align:center;
+}
+.institutional-links a{
+  background: var(--grey-bg); border-radius: var(--radius); padding:1.4em 1em;
+  display:flex; flex-direction:column; align-items:center; gap:.6em;
+}
+.institutional-links img{ height:40px; width:auto; }
+.institutional-links span{ font-family: var(--font-head); font-weight:700; text-transform:uppercase; font-size:.85rem; }
+
+/* ---------------- Newsletter ---------------- */
+.newsletter{ background: var(--pd-red); color:#fff; }
+.newsletter-inner{ max-width:720px; margin:0 auto; padding:3.5em 1.5em; text-align:center; }
+.newsletter-inner h2{ color:#fff; font-size:2rem; }
+.newsletter-inner p{ color:#ffe1e6; }
+.newsletter-form{ display:flex; flex-wrap:wrap; gap:.8em; justify-content:center; margin-top:1.5em; }
+.newsletter-form input[type=email], .newsletter-form input[type=text]{
+  flex:1 1 220px; padding:.8em 1em; border-radius:8px; border:none; font-size:1rem;
+}
+.privacy-check{ flex:1 1 100%; font-size:.85rem; color:#ffe1e6; display:flex; align-items:center; gap:.5em; justify-content:center; }
+.privacy-check a{ text-decoration:underline; color:#fff; }
+.newsletter-form .btn{ flex:0 0 auto; }
+.newsletter-form .btn-primary{ background: var(--pd-navy); }
+.newsletter-form .btn-primary:hover{ background:#000; }
+
+/* ---------------- Footer ---------------- */
+.site-footer{ background: var(--pd-navy); color:#c3c7de; }
+.footer-top{
+  max-width:1240px; margin:0 auto; padding:3em 1.5em;
+  display:grid; grid-template-columns: 1.4fr repeat(5, 1fr); gap:2em;
+}
+.footer-brand img{ height:60px; margin-bottom:1em; }
+.footer-brand p{ color:#9aa0bd; font-size:.9rem; }
+.footer-brand a{ color:#c3c7de; }
+.social-icons{ display:flex; gap:.6em; margin-top:1em; }
+.social-icons a{
+  width:34px; height:34px; border-radius:50%; background: rgba(255,255,255,.08);
+  display:flex; align-items:center; justify-content:center; font-size:.9rem;
+}
+.social-icons a:hover{ background: var(--pd-red); }
+.footer-col h5{ color:#fff; font-size:.95rem; margin-bottom:1em; }
+.footer-col ul li{ margin-bottom:.6em; }
+.footer-col ul li a{ font-size:.88rem; color:#9aa0bd; }
+.footer-col ul li a:hover{ color:#fff; }
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:1.2em 1.5em; max-width:1240px; margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1em;
+}
+.footer-bottom p{ margin:0; font-size:.8rem; color:#9aa0bd; }
+.footer-bottom ul{ display:flex; gap:1.4em; }
+.footer-bottom ul li a{ font-size:.8rem; color:#9aa0bd; }
+.footer-bottom ul li a:hover{ color:#fff; }
+
+/* ---------------- Pagina Consiglio regionale ---------------- */
+.page-hero{ max-width:1240px; margin:0 auto; padding:2.5em 1.5em 1em; }
+.page-hero h1{ font-size:2.4rem; border-left:5px solid var(--pd-red); padding-left:.5em; margin-bottom:.3em; }
+.page-hero p{ max-width:720px; }
+.council-leaders{
+  max-width:1240px; margin:0 auto; padding:1em 1.5em 2em;
+  display:grid; grid-template-columns: repeat(3, 1fr); gap:1.5em;
+}
+.council-grid{
+  max-width:1240px; margin:0 auto; padding:1em 1.5em 3em;
+  display:grid; grid-template-columns: repeat(4, 1fr); gap:1.5em;
+}
+.council-card{
+  background:#fff; border-radius: var(--radius); box-shadow: var(--shadow);
+  overflow:hidden; text-align:center; display:flex; flex-direction:column;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.council-card:hover{ transform: translateY(-4px); box-shadow: 0 14px 28px rgba(18,23,43,.14); }
+.council-card img{ width:100%; aspect-ratio: 160/205; object-fit:cover; transition: transform .35s ease; }
+.council-card:hover img{ transform: scale(1.04); }
+.council-card .council-body{ padding:1em .8em 1.3em; }
+.council-role{
+  display:inline-block; background: var(--pd-red); color:#fff; font-family: var(--font-head);
+  font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px;
+  padding:.25em .8em; border-radius:999px; margin-bottom:.6em;
+}
+.council-card h3{ font-size:1.1rem; margin:0; text-transform:none; letter-spacing:0; }
+.council-card h3 a{ color: var(--text-dark); }
+.council-card h3 a:hover{ color: var(--pd-red); }
+.council-contact{
+  max-width:1240px; margin:0 auto; padding:1em 1.5em 3em; text-align:center; color: var(--text-muted); font-size:.9rem;
+}
+.council-contact a{ color: var(--pd-red); font-weight:600; }
+
+/* ---------------- Leaflet popup tweak ---------------- */
+.leaflet-popup-content{ font-family: var(--font-body); }
+.leaflet-popup-content b{ font-family: var(--font-head); }
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 960px){
+  .main-nav{ position:fixed; top:0; right:-320px; width:300px; height:100vh; background: var(--pd-navy-2);
+    padding:5em 1.5em; transition:.25s ease; overflow-y:auto; }
+  .main-nav.open{ right:0; }
+  .main-nav > ul{ flex-direction:column; gap:0; }
+  .main-nav > ul > li > a{ padding:.9em 0; width:100%; }
+  .dropdown{ position:static; opacity:1; visibility:visible; transform:none; box-shadow:none; background:none; padding-left:1em; display:none; }
+  .has-dropdown.open .dropdown{ display:block; }
+  .menu-toggle{ display:flex; }
+  .hero-grid{ grid-template-columns:1fr; }
+  .campaign-banner-inner{ grid-template-columns:1fr; }
+  .news-grid{ grid-template-columns: repeat(2,1fr); }
+  .social-grid{ grid-template-columns: repeat(2,1fr); }
+  .institutional-links{ grid-template-columns: repeat(2,1fr); }
+  .footer-top{ grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 600px){
+  .news-grid{ grid-template-columns: 1fr; }
+  .social-grid{ grid-template-columns: repeat(2,1fr); }
+  .footer-top{ grid-template-columns: 1fr; }
+  .hero-side .card{ flex-direction:column; }
+  .hero-side .card img{ width:100%; height:160px; }
+}
+@media (max-width: 900px){
+  .council-leaders{ grid-template-columns: repeat(2,1fr); }
+  .council-grid{ grid-template-columns: repeat(2,1fr); }
+  .segreteria-grid{ grid-template-columns: 1fr; }
+  .prov-grid{ grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 600px){
+  .council-leaders{ grid-template-columns: 1fr; }
+  .council-grid{ grid-template-columns: repeat(2,1fr); }
+  .segreteria-card{ flex-direction:column; }
+  .segreteria-card img, .segreteria-card .avatar-placeholder{ width:100%; height:220px; }
+  .prov-grid{ grid-template-columns: 1fr; }
+}
+
+/* ---------------- Pagina Segreteria Regionale ---------------- */
+.segreteria-leader{ max-width:900px; margin:0 auto 2em; padding:0 1.5em; }
+.segreteria-grid{
+  max-width:1240px; margin:0 auto; padding:1em 1.5em 3em;
+  display:grid; grid-template-columns: repeat(2, 1fr); gap:1.5em;
+}
+.segreteria-card{
+  background:#fff; border-radius: var(--radius); box-shadow: var(--shadow);
+  overflow:hidden; display:flex; gap:1.2em; padding:1.2em;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.segreteria-card:hover{ transform: translateY(-3px); box-shadow: 0 14px 28px rgba(18,23,43,.14); }
+.segreteria-leader .segreteria-card{ padding:1.6em; gap:1.8em; }
+.segreteria-card img,
+.segreteria-card .avatar-placeholder{
+  width:130px; height:160px; object-fit:cover; border-radius:8px; flex-shrink:0;
+}
+.segreteria-leader .segreteria-card img,
+.segreteria-leader .segreteria-card .avatar-placeholder{ width:170px; height:210px; }
+.segreteria-card .avatar-placeholder{
+  display:flex; align-items:center; justify-content:center;
+  background: var(--pd-navy); color:#fff; font-family: var(--font-head);
+  font-size:2.6rem; font-weight:700;
+}
+.segreteria-body{ display:flex; flex-direction:column; justify-content:center; }
+.segreteria-body h3{ margin:0 0 .2em; font-size:1.25rem; }
+.segreteria-body p.bio{ font-size:.87rem; color:var(--text-muted); line-height:1.55; margin:.5em 0 0; }
+
+/* ---------------- Pagina Segreteria Provinciale ---------------- */
+.prov-grid{
+  max-width:1240px; margin:0 auto; padding:1em 1.5em 3em;
+  display:grid; grid-template-columns: repeat(4, 1fr); gap:1.2em;
+}
+.prov-card{
+  background:#fff; border-radius: var(--radius); box-shadow: var(--shadow);
+  padding:1.4em 1.2em; text-align:center;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.prov-card:hover{ transform: translateY(-3px); box-shadow: 0 14px 28px rgba(18,23,43,.14); }
+.prov-card h3{ font-size:1.05rem; margin:0 0 .4em; }
+.prov-card p{ font-size:.85rem; color:var(--text-muted); margin:0; }
+
+/* ---------------- Barra "Seguici" (pagine interne) ---------------- */
+.follow-bar{
+  max-width:1240px; margin:2em auto 0; padding:2em 1.5em;
+  border-top:1px solid var(--grey-line); text-align:center;
+}
+.follow-bar p{
+  font-family: var(--font-head); font-weight:700; text-transform:uppercase;
+  letter-spacing:.6px; color: var(--text-muted); font-size:.85rem; margin-bottom:.9em;
+}
+.follow-bar .social-icons{ justify-content:center; }
+.follow-bar .social-icons a{
+  width:42px; height:42px; border-radius:50%; background: var(--grey-bg); color: var(--pd-navy);
+  display:flex; align-items:center; justify-content:center; font-size:1.05rem;
+  transition: background .15s ease, color .15s ease, transform .15s ease;
+}
+.follow-bar .social-icons a:hover{ background: var(--pd-red); color:#fff; transform: translateY(-2px); }
+
+/* ---------------- Pagina generica (segnaposto) ---------------- */
+.generic-page{ max-width:800px; margin:0 auto; padding:3em 1.5em 5em; }
+.generic-page h1{ font-size:2.2rem; border-left:5px solid var(--pd-red); padding-left:.5em; margin-bottom:.5em; }
+.generic-page p{ color: var(--text-muted); line-height:1.6; }
+.generic-page .back-link{ display:inline-block; margin-top:1.5em; color:var(--pd-red); font-weight:600; }
